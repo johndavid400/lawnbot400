@@ -1,0 +1,21 @@
+EAGLE Version 4.16r2 Copyright (c) 1988-2006 CadSoft
+
+Electrical Rule Check for /home/server/eagle/h_bridge/untitled.sch at  7/01/2009 10:46:26 
+
+WARNING: Sheet 1/1: unconnected Pin: R1 2
+WARNING: Sheet 1/1: unconnected Pin: R2 2
+WARNING: Sheet 1/1: unconnected Pin: R2 1
+WARNING: Sheet 1/1: unconnected Pin: R3 2
+WARNING: Sheet 1/1: unconnected Pin: R3 1
+WARNING: Sheet 1/1: unconnected Pin: R4 2
+WARNING: Sheet 1/1: unconnected Pin: R4 1
+WARNING: Sheet 1/1: unconnected Pin: R5 2
+WARNING: Sheet 1/1: unconnected Pin: R5 1
+WARNING: Sheet 1/1: unconnected Pin: R6 2
+WARNING: Sheet 1/1: unconnected Pin: R7 1
+WARNING: Sheet 1/1: unconnected Pin: R8 1
+
+No board loaded - consistency has not been checked
+
+    0 errors
+   12 warnings

@@ -1,0 +1,12 @@
+EAGLE Version 4.16r2 Copyright (c) 1988-2006 CadSoft
+
+Electrical Rule Check for /home/server/eagle/lawnbot board/untitled.sch at  7/29/2009 14:11:21 
+
+WARNING: Sheet 1/1, Net GND: missing Junction at (3.3 -0.2)
+WARNING: Sheet 1/1: Nets N$8 and N$11 too close at (3.6 2.5)
+WARNING: Sheet 1/1, Net N$8: wire overlaps pin at (3.6 2.5)
+
+Board and schematic are consistent
+
+    0 errors
+    3 warnings

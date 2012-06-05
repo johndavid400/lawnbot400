@@ -5,9 +5,9 @@ boolean config_pin4 = 4;
 
 boolean all_rc = false;
 
-int rc1 = 5; // aileron
-int rc2 = 4; // elevator
-int rc3 = 3; // throttle
+int rc3 = 5; // throttle - left motor
+int rc1 = 4; // aileron
+int rc2 = 3; // elevator - right motor
 int rc4 = 2; // rudder
 int rc5 = 1; // toggle switch
 int rc6 = 0; // trainer switch
@@ -20,8 +20,8 @@ int rc5_raw;
 int rc6_raw;
 
 boolean rc1_val = false;
-boolean rc2_val = false;
-boolean rc3_val = false;
+int rc2_val;
+int rc3_val;
 boolean rc4_val = false;
 boolean rc5_val = false;
 boolean rc6_val = false;
@@ -34,10 +34,16 @@ int out3 = 12;
 int enable_34 = 11;
 int out4 = 13;
 
+int left_motor = 5;
+int right_motor = 6;
+
 void setup(){
 
   pinMode(config_pin2, INPUT);
   pinMode(config_pin4, INPUT);
+
+  digitalWrite(config_pin2, HIGH);
+  digitalWrite(config_pin4, HIGH);
 
   pinMode(rc1, INPUT);
   pinMode(rc2, INPUT);  // let the elevator channel connect directly to the Sabertooth
@@ -45,6 +51,9 @@ void setup(){
   pinMode(rc4, INPUT);
   pinMode(rc5, INPUT);
   pinMode(rc6, INPUT);
+
+  pinMode(left_motor, OUTPUT);
+  pinMode(right_motor, OUTPUT);
 
   pinMode(out1, OUTPUT);
   pinMode(enable_12, OUTPUT);
@@ -68,9 +77,21 @@ void run_config(){
   }
 }
 
+void write_sabertooth_values(){
+  digitalWrite(left_motor, HIGH);
+  delayMicroseconds(rc3_val);
+  digitalWrite(left_motor, LOW);
+
+  digitalWrite(right_motor, HIGH);
+  delayMicroseconds(rc2_val);
+  digitalWrite(right_motor, LOW);
+}
+
 void loop(){
   // do stuff
   read_radio_signals();
+
+  write_sabertooth_values();
 
   if (rc5_val == true){
     digitalWrite(out1, HIGH);
@@ -85,22 +106,53 @@ void loop(){
   else {
     digitalWrite(out2, LOW);
   }
-
 }
 
 void read_radio_signals(){
-//  rc2_raw = pulseIn(rc5, HIGH, 20000);
-//  rc3_raw = pulseIn(rc5, HIGH, 20000);
 
   if (all_rc == true){
-    rc1_raw = pulseIn(rc5, HIGH, 20000);
-    rc4_raw = pulseIn(rc5, HIGH, 20000);
+    rc3_raw = pulseIn(rc3, HIGH, 20000);
+    rc1_raw = pulseIn(rc1, HIGH, 20000);
+    rc2_raw = pulseIn(rc2, HIGH, 20000);
+    rc4_raw = pulseIn(rc4, HIGH, 20000);
     rc5_raw = pulseIn(rc5, HIGH, 20000);
-    rc6_raw = pulseIn(rc5, HIGH, 20000);
+    rc6_raw = pulseIn(rc6, HIGH, 20000);
   }
   else {
+    rc3_raw = pulseIn(rc3, HIGH, 20000);
+    rc2_raw = pulseIn(rc2, HIGH, 20000);
     rc5_raw = pulseIn(rc5, HIGH, 20000);
-    rc6_raw = pulseIn(rc5, HIGH, 20000);
+    rc6_raw = pulseIn(rc6, HIGH, 20000);
+  }
+
+  if (rc3_raw > 1000 && rc3_raw < 2000){
+    rc3_val = map(rc3_raw, 1100, 1900, 1000, 2000);
+    if (rc3_val > 2000){
+      rc3_val = 2000;
+    }
+    else if (rc3_val < 1000){
+      rc3_val = 1000;
+    }
+    else {
+    }
+  }
+  else {
+    rc3_val = 1500;
+  }
+
+  if (rc2_raw > 1000 && rc2_raw < 2000){
+    rc2_val = map(rc2_raw, 1100, 1900, 1000, 2000);
+    if (rc2_val > 2000){
+      rc2_val = 2000;
+    }
+    else if (rc2_val < 1000){
+      rc2_val = 1000;
+    }
+    else {
+    }
+  }
+  else {
+    rc2_val = 1500;
   }
 
   if (rc1_raw > 1700){
@@ -130,7 +182,6 @@ void read_radio_signals(){
   else {
     rc6_val = false;
   }
-
 }
 
 
